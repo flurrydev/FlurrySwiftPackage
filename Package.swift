@@ -6,13 +6,15 @@ import PackageDescription
 let package = Package(
     name: "Flurry",
     platforms: [
-        .iOS("14")
+        .iOS(.v9),
+        .tvOS(.v9),
+        .watchOS(.v2)
         ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "FlurryAnalyticsSPM",
-            targets: ["FlurryAnalytics"]
+            targets: ["FlurryAnalytics","FlurryCrashReporter"]
         ),
         .library(
             name: "FlurryMessagingSPM",
@@ -36,7 +38,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "FlurryAnalytics",
-            dependencies: ["FlurryAnalyticsBinary"]
+            dependencies: ["FlurryAnalyticsBinary","FlurryCrashReporter"]
         ),
         .target(
             name: "FlurryMessaging",
@@ -49,6 +51,10 @@ let package = Package(
         .target(
             name: "FlurryAds",
             dependencies: ["FlurryAdsBinary"]
+        ),
+        .target(
+            name: "FlurryCrashReporter",
+            dependencies: ["FlurryCrashReporterBinary"]
         ),
         .binaryTarget(
             name: "FlurryAnalyticsBinary",
@@ -65,6 +71,10 @@ let package = Package(
         .binaryTarget(
             name: "FlurryAdsBinary",
             path: "artifacts/FlurryAds.xcframework"
+        ),
+        .binaryTarget(
+            name: "FlurryCrashReporterBinary",
+            path: "artifacts/CrashReporter.xcframework"
         ),
         
         .testTarget(
